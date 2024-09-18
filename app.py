@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='template')
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'NeySeb832'
-app.config['MYSQL_DB'] = 'login'
+app.config['MYSQL_DB'] = 'progabogados'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'  
 
 mysql = MySQL(app)
@@ -34,9 +34,18 @@ def login():
         if account:
             session['logueado'] = True
             session['id'] = account['id']
-            return render_template("admin.html")
+            session['idrol'] = account['idrol']
+
+            if session['idrol'] == "1":
+                return render_template("admin.html")
+            elif session['idrol'] == "2":
+                return render_template("abogado.html")
+            elif session['idrol'] == "3":
+                return render_template("cliente.html")
         else:
-            return render_template('index.html', mensaje = "Usuario o contraseña incorrectos")
+            return render_template('index.html', mensaje="Usuario o contraseña incorrectos")
+    # Si el método no es POST o faltan campos, simplemente renderiza el formulario de login
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.secret_key = "Redyen83232"
