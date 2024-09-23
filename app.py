@@ -44,7 +44,9 @@ def login():
                 return render_template("cliente.html")
         else:
             return render_template('index.html', mensaje="Usuario o contraseña incorrectos")
-    # Si el método no es POST o faltan campos, simplemente renderiza el formulario de login
+        
+    #Si el métdo no es POST o faltan campos, simplemente renderiza el formulario de login
+
     return render_template("index.html")
 
 if __name__ == '__main__':
