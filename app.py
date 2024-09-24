@@ -1,6 +1,9 @@
 # Importacion de las librerias necesarias para el desarrollo del proyecto
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 from flask_mysqldb import MySQL
+import os
+
+from pyexpat.errors import messages
 
 # Conexion con la base de datos en MySQL
 app = Flask(__name__, template_folder='template')
@@ -12,6 +15,8 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
 
+
+#Rutas de la aplocaciom
 @app.route('/')
 def home():
     return render_template("index.html")
@@ -33,21 +38,29 @@ def login():
 
         if account:
             session['logueado'] = True
+            session['name'] = account['nombre']
             session['id'] = account['id']
             session['idrol'] = account['idrol']
 
             if session['idrol'] == "1":
-                return render_template("admin.html")
+                return render_template("admin.html", message = "Bienvenido Administrador")
             elif session['idrol'] == "2":
-                return render_template("abogado.html")
+                return render_template("abogado.html", message = "Bienvenido Abogado")
             elif session['idrol'] == "3":
-                return render_template("cliente.html")
+                return render_template("cliente.html" , message = "Bienvenido Cliente")
         else:
             return render_template('index.html', mensaje="Usuario o contraseña incorrectos")
+
+
         
     #Si el métdo no es POST o faltan campos, simplemente renderiza el formulario de login
 
     return render_template("index.html")
+
+@app.route ('/logout')
+def logout():
+    session.pop('logueado', None)
+    return redirect('/')
 
 if __name__ == '__main__':
     app.secret_key = "Redyen83232"
