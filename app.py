@@ -2,8 +2,8 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_mysqldb import MySQL
 import os
-
 from pyexpat.errors import messages
+from rich.markup import render
 
 # Conexion con la base de datos en MySQL
 app = Flask(__name__, template_folder='template')
@@ -57,10 +57,29 @@ def login():
 
     return render_template("index.html")
 
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
+
+@app.route('/crear-registro', methods=['GET', 'POST'])
+def crear_registro():
+
+    id = request.form['txtId']
+    nombre =request.form['txtNombre']
+    correo = request.form['txtCorreo']
+    contraseña = request.form['txtPassword']
+    idrol = request.form['txtIdRol']
+    cur = mysql.connection.cursor()
+    cur.execute("insert into usuarios (id, nombre, correo, contraseña, idrol) values (%s, %s, %s, %s, %s)", (id, nombre, correo, contraseña, idrol))
+    mysql.connection.commit()
+
+    return render_template("index.html")
 @app.route ('/logout')
 def logout():
     session.pop('logueado', None)
     return redirect('/')
+
+
 
 if __name__ == '__main__':
     app.secret_key = "Redyen83232"

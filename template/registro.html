@@ -1,0 +1,54 @@
+{% include("cabecera.html")%}
+
+<!------Formulario de registro ------>
+
+<div class="caja">
+    <form class="form-control" action="crear-registro" method="post">
+        <h1 class="text-center t">Registro</h1>
+
+        {% if mensaje %}
+            {{mensaje}}
+        {% endif %}
+
+        <!-- Campo para ID del usuario -->
+        <div class="form-group">
+            <label for="inputId">ID del Usuario</label>
+            <input type="text" class="form-control" id="inputId" placeholder="ID del Usuario" name="txtId" required>
+        </div>
+
+        <!-- Campo para el nombre del usuario -->
+        <div class="form-group">
+            <label for="inputNombre">Nombre</label>
+            <input type="text" class="form-control" id="inputNombre" placeholder="Nombre" name="txtNombre" required>
+        </div>
+
+        <!-- Campo para el correo -->
+        <div class="form-group">
+            <label for="exampleInputEmail1">Correo</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Correo" name="txtCorreo" required>
+        </div>
+
+        <!-- Campo para la contraseña -->
+        <div class="form-group">
+            <label for="exampleInputPassword1">Contraseña</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña" name="txtPassword" required>
+        </div>
+
+        <!-- Campo para seleccionar el rol del usuario -->
+        <div class="form-group">
+            <label for="inputRol">Rol del Usuario</label>
+            <input type="text" class="form-control" id="inputRol" placeholder="ID del Rol" name="txtIdRol" required>
+            <small class="form-text text-muted">Ingrese el ID del rol correspondiente.</small>
+        </div>
+
+        {% if message %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error</strong>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+
+        <!-- Botón para registrar -->
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+</div>
