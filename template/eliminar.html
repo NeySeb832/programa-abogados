@@ -1,0 +1,35 @@
+{% include("cabecera.html")%}
+
+<!------Formulario de registro ------>
+
+<div class="caja">
+    <form class="form-control" action="eliminar_registro" method="post">
+        <h1 class="text-center t">Eliminar Usuario</h1>
+
+        {% if mensaje %}
+            {{mensaje}}
+        {% endif %}
+
+        <!-- Campo para ID del usuario -->
+        <div class="form-group">
+            <label for="inputId">ID del Usuario</label>
+            <input type="text" class="form-control" id="inputId" placeholder="ID del Usuario" name="txtId" required>
+        </div>
+
+        <!-- Campo para el nombre del usuario -->
+        <div class="form-group">
+            <label for="inputNombre">Nombre</label>
+            <input type="text" class="form-control" id="inputNombre" placeholder="Nombre" name="txtNombre" required>
+        </div>
+
+        {% if message %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error</strong>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+
+        <!-- Botón para eliminar -->
+        <button type="submit" class="btn btn-primary">Eliminar</button>
+    </form>
+</div>

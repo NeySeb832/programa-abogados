@@ -74,6 +74,21 @@ def crear_registro():
     mysql.connection.commit()
 
     return render_template("index.html")
+
+@app.route('/eliminar')
+def eliminar():
+    return render_template('eliminar.html')
+
+@app.route('/eliminar_registro', methods=['GET', 'POST'])
+def eliminar_registro():
+
+    id = request.form['txtId']
+    nombre =request.form['txtNombre']
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM usuarios WHERE id = %s AND nombre = %s", (id, nombre))
+    mysql.connection.commit()
+
+    return render_template("index.html")
 @app.route ('/logout')
 def logout():
     session.pop('logueado', None)
