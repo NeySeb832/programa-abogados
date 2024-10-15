@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bufete de Abogados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            background-color: #003366;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .welcome h2 {
+            color: #003366;
+        }
+
+        .services {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        .service {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 30%;
+        }
+
+        .service h3 {
+            color: #004080;
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .login-btn {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background-color: #002d5f;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bienvenido a Bufete Legal</h1>
+</header>
+
+<nav>
+    <a href="/">Inicio</a>
+    <a href="/accesp-login" class="login-btn">Iniciar Sesión</a>
+</nav>
+
+<div class="container">
+    <div class="welcome">
+        <h2>Soluciones legales para tu tranquilidad</h2>
+        <p>En nuestro bufete, contamos con los mejores abogados especializados para brindarte el asesoramiento y la defensa legal que necesitas.</p>
+    </div>
+
+    <div class="services">
+        <div class="service">
+            <h3>Derecho Corporativo</h3>
+            <p>Asesoramiento integral para empresas y negocios en todas las áreas del derecho empresarial.</p>
+        </div>
+        <div class="service">
+            <h3>Derecho Penal</h3>
+            <p>Defensa y representación en casos penales, garantizando tus derechos y un proceso justo.</p>
+        </div>
+        <div class="service">
+            <h3>Derecho Civil</h3>
+            <p>Soluciones legales en conflictos civiles como herencias, contratos, y más.</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Bufete Legal. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

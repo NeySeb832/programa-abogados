@@ -1,6 +1,7 @@
 # Importacion de las librerias necesarias para el desarrollo del proyecto
 from flask import Flask, render_template, request, session, redirect
 from flask_mysqldb import MySQL
+from passlib.hash import pbkdf2_sha256
 import os
 from pyexpat.errors import messages
 from rich.markup import render
@@ -19,7 +20,7 @@ mysql = MySQL(app)
 #Rutas de la aplocaciom
 @app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template("home.html")
 
 @app.route('/admin')
 def admin():
@@ -89,6 +90,15 @@ def eliminar_registro():
     mysql.connection.commit()
 
     return render_template("index.html")
+
+@app.route('/listar', methods=['GET', 'POST'])
+def listar():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM usuarios")
+    usuarios = cur.fetchall()
+    cur.close()
+
+    return render_template("listar.html", usuarios=usuarios)
 @app.route ('/logout')
 def logout():
     session.pop('logueado', None)
