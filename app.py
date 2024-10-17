@@ -1,21 +1,115 @@
-#Importacion de las librerias necesarias apra el desarrollo del proyecto
-from flask import Flask
-from flask import render_template, request, Response, session
-from flask_mysqldb import MySQL, MySQLdb
+# Importacion de las librerias necesarias para el desarrollo del proyecto
+from flask import Flask, render_template, request, session, redirect
+from flask_mysqldb import MySQL
+from passlib.hash import pbkdf2_sha256
+import os
+from pyexpat.errors import messages
+from rich.markup import render
 
-#Conexion con la base de datos en MySQL
+# Conexion con la base de datos en MySQL
 app = Flask(__name__, template_folder='template')
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'NeySeb832'
-app.config['MYSQL_DB'] = 'abogados'
-app.config['MYSQL_CURSOR CLASS'] = 'DictCursor'
+app.config['MYSQL_PASSWORD'] = 'Robin20'
+app.config['MYSQL_DB'] = 'progabogados'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'  
 
-MySQL=MySQL(app)
+mysql = MySQL(app)
 
+
+#Rutas de la aplocaciom
 @app.route('/')
 def home():
+    return render_template("home.html")
+
+@app.route('/admin')
+def admin():
+    return render_template("admin.html")
+
+# Relleno
+@app.route('/sobreNosotros')
+def SobreNosotros():
+    return render_template("sobreNosotros.html")
+
+# Funcion del login
+@app.route('/accesp-login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST' and 'txtCorreo' in request.form and 'txtPassword' in request.form:
+        _correo = request.form['txtCorreo']
+        _password = request.form['txtPassword']
+
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM usuarios WHERE correo = %s AND contraseña = %s', (_correo, _password))
+        account = cur.fetchone()
+
+        if account:
+            session['logueado'] = True
+            session['name'] = account['nombre']
+            session['id'] = account['id']
+            session['idrol'] = account['idrol']
+
+            if session['idrol'] == "1":
+                return render_template("admin.html", message = "Bienvenido Administrador")
+            elif session['idrol'] == "2":
+                return render_template("abogado.html", message = "Bienvenido Abogado")
+            elif session['idrol'] == "3":
+                return render_template("cliente.html" , message = "Bienvenido Cliente")
+        else:
+            return render_template('index.html', mensaje="Usuario o contraseña incorrectos")
+
+
+        
+    #Si el métdo no es POST o faltan campos, simplemente renderiza el formulario de login
+
     return render_template("index.html")
+
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
+
+@app.route('/crear-registro', methods=['GET', 'POST'])
+def crear_registro():
+
+    id = request.form['txtId']
+    nombre =request.form['txtNombre']
+    correo = request.form['txtCorreo']
+    contraseña = request.form['txtPassword']
+    idrol = request.form['txtIdRol']
+    cur = mysql.connection.cursor()
+    cur.execute("insert into usuarios (id, nombre, correo, contraseña, idrol) values (%s, %s, %s, %s, %s)", (id, nombre, correo, contraseña, idrol))
+    mysql.connection.commit()
+
+    return render_template("index.html")
+
+@app.route('/eliminar')
+def eliminar():
+    return render_template('eliminar.html')
+
+@app.route('/eliminar_registro', methods=['GET', 'POST'])
+def eliminar_registro():
+
+    id = request.form['txtId']
+    nombre =request.form['txtNombre']
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM usuarios WHERE id = %s AND nombre = %s", (id, nombre))
+    mysql.connection.commit()
+
+    return render_template("index.html")
+
+@app.route('/listar', methods=['GET', 'POST'])
+def listar():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM usuarios")
+    usuarios = cur.fetchall()
+    cur.close()
+
+    return render_template("listar.html", usuarios=usuarios)
+@app.route ('/logout')
+def logout():
+    session.pop('logueado', None)
+    return redirect('/')
+
+
 
 if __name__ == '__main__':
     app.secret_key = "Redyen83232"
